@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET1.S._2019.Chemrukova._08
+namespace Books
 {
     public class Class1
     {

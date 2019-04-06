@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NET1.S.2019.Chemrukova.08")]
+[assembly: AssemblyTitle("Books")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DNA Project")]
-[assembly: AssemblyProduct("NET1.S.2019.Chemrukova.08")]
+[assembly: AssemblyProduct("Books")]
 [assembly: AssemblyCopyright("Copyright © DNA Project 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8a984e9c-17c7-498e-9652-8360c6d4e580")]
+[assembly: Guid("f0378556-ef56-47e3-9801-9a02529e1270")]
 
 // Version information for an assembly consists of the following four values:
 //
