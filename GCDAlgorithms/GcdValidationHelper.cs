@@ -28,5 +28,18 @@ namespace GCDAlgorithms
                 throw new ArgumentOutOfRangeException($"GCD for {nameof(a)} and {nameof(b)} can't be calculated within integer range");
             }
         }
+
+        /// <summary>
+        /// Checks algorithm on null. If algorithm is null - throws an exception.
+        /// </summary>
+        /// <param name="algorithm">Algorithm of gcd calculations.</param>
+        /// <exception cref="ArgumentNullException">Thrown when algorithm is null.</exception>
+        public static void CheckOnNull(IGcdAlgorithm algorithm)
+        {
+            if (algorithm == null)
+            {
+                throw new ArgumentNullException($"{nameof(algorithm)} can't be null!");
+            }
+        }
     }
 }
