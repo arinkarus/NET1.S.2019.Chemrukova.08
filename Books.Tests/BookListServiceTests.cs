@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Books.Tests.Storages;
 using Books.Tests.Search;
-using Books.Exception;
+using Books.Exceptions;
 
 namespace Books.Tests
 {
@@ -112,7 +112,7 @@ namespace Books.Tests
             bookListService.Add(new Book("987-123456779-4", "Some book", "Ivanov", 1985, "House", 1050, 100));
             bookListService.Add(new Book("987-123456771-4", "English dictionary", "Englishmen", 1999, "House", 200, 100));
             bookListService.Add(new Book("987-123456777-4", "Russian Dictionary", "Petrov", 2000, "House", 155, 101));
-            Assert.Throws<ItemIsNotFoundException>(() => bookListService.Remove(bookThatIsNotInBookList));
+            Assert.Throws<BookIsNotFoundException>(() => bookListService.Remove(bookThatIsNotInBookList));
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace Books.Tests
             var bookThatIsAlreadyExistsInList = new Book("987-123456779-4", "Some book", "Ivanov", 1985, "House", 1050, 100);
             var bookListService = new BookListService(new FakeBookListStorage());
             bookListService.Add(new Book("987-123456779-4", "Some book", "Ivanov", 1985, "House", 1050, 100));
-            Assert.Throws<DuplicateItemException>(() => bookListService.Add(bookThatIsAlreadyExistsInList));
+            Assert.Throws<DuplicateBookException>(() => bookListService.Add(bookThatIsAlreadyExistsInList));
         }
 
         [Test]

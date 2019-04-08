@@ -46,8 +46,8 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="BookValidator.cs" />
-    <Compile Include="Exception\DuplicateItemException.cs" />
-    <Compile Include="Exception\ItemIsNotFoundException.cs" />
+    <Compile Include="Exceptions\DuplicateBookException.cs" />
+    <Compile Include="Exceptions\BookIsNotFoundException.cs" />
     <Compile Include="IBookListService.cs" />
     <Compile Include="IBookListStorage.cs" />
     <Compile Include="ISearchCriteria.cs" />

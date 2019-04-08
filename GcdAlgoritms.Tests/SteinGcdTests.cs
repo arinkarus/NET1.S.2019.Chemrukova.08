@@ -1,6 +1,7 @@
 ﻿using GCDAlgorithms;
 using NUnit.Framework;
 using System;
+using System.Diagnostics;
 
 namespace GcdAlgoritms.Tests
 {
@@ -10,17 +11,19 @@ namespace GcdAlgoritms.Tests
         public void Calculate_TwoZeroesGiven_ThrowArgumentException() =>
            Assert.Throws<ArgumentException>(() =>
            {
-               IGcdAlgorithm algorithm = new BinaryGcdAlgorithm();
-               algorithm.Calculate(0, 0);
+               var stopwatch = new Stopwatch();
+               IGcdAlgorithm gcdAlgorithm = new BinaryGcdAlgorithm();
+               gcdAlgorithm.CalculateGcdWithTime(0, 0, new StopwatchAdapter(stopwatch), out _);
            }
-          );
+           );      
 
         [Test]
         public void Calculate_TwoIntegerMinValues_ThrowArgumentOutOfRangeException() =>
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                IGcdAlgorithm algorithm = new BinaryGcdAlgorithm();
-                algorithm.Calculate(int.MinValue, int.MinValue);
+                var stopwatch = new Stopwatch();
+                IGcdAlgorithm gcdAlgorithm = new BinaryGcdAlgorithm();
+                gcdAlgorithm.CalculateGcdWithTime(int.MinValue, int.MinValue, new StopwatchAdapter(stopwatch), out _);
             }
            );
 
@@ -31,8 +34,9 @@ namespace GcdAlgoritms.Tests
         [TestCase(int.MaxValue, int.MaxValue, ExpectedResult = int.MaxValue)]
         public int Calculate_TwoIntegersGiven_ReturnGCD(int first, int second)
         {
-            IGcdAlgorithm algorithm = new BinaryGcdAlgorithm();
-            return algorithm.Calculate(first, second);
+            var stopwatch = new Stopwatch();
+            IGcdAlgorithm gcdAlgorithm = new BinaryGcdAlgorithm();
+            return gcdAlgorithm.CalculateGcdWithTime(first, second, new StopwatchAdapter(stopwatch), out _);
         }
     }
 }

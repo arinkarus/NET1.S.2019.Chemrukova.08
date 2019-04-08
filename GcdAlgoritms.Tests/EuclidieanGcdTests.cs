@@ -1,6 +1,7 @@
 ﻿using GCDAlgorithms;
 using NUnit.Framework;
 using System;
+using System.Diagnostics;
 
 namespace GcdAlgoritms.Tests
 {
@@ -10,7 +11,8 @@ namespace GcdAlgoritms.Tests
         public void Calculate_TwoZeroesGiven_ThrowArgumentException() =>
            Assert.Throws<ArgumentException>(() =>
            {
-               IGcdAlgorithm algorithm = new EuclideanGcdAlgorithm();
+               var stopwatch = new Stopwatch();
+               IGcdAlgorithm algorithm = new GcdAlgorithmWithTimePerformance(new EuclideanGcdAlgorithm(), new StopwatchAdapter(stopwatch));
                algorithm.Calculate(0, 0);
            });
 
@@ -18,7 +20,8 @@ namespace GcdAlgoritms.Tests
         public void Calculate_TwoIntegerMinValues_ThrowArgumentOutOfRangeException() =>
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                IGcdAlgorithm algorithm = new EuclideanGcdAlgorithm();
+                var stopwatch = new Stopwatch();
+                IGcdAlgorithm algorithm = new GcdAlgorithmWithTimePerformance(new EuclideanGcdAlgorithm(), new StopwatchAdapter(stopwatch));
                 algorithm.Calculate(int.MinValue, int.MinValue);
             } );
 
@@ -29,7 +32,8 @@ namespace GcdAlgoritms.Tests
         [TestCase(int.MaxValue, int.MaxValue, ExpectedResult = int.MaxValue)]
         public int Calculate_TwoIntegersGiven_ReturnGCD(int first, int second)
         {
-            IGcdAlgorithm algorithm = new EuclideanGcdAlgorithm();
+            var stopwatch = new Stopwatch();
+            IGcdAlgorithm algorithm = new GcdAlgorithmWithTimePerformance(new EuclideanGcdAlgorithm(), new StopwatchAdapter(stopwatch));
             return algorithm.Calculate(first, second);
         }
     }  

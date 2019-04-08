@@ -1,4 +1,4 @@
-﻿using Books.Exception;
+﻿using Books.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace Books
             BookValidator.CheckOnNull(book);
             if (this.books.Contains(book))
             {
-                throw new DuplicateItemException($"{nameof(book)} is already in list.");
+                throw new DuplicateBookException($"{nameof(book)} is already in list.");
             }
 
             books.Add(book);
@@ -58,7 +58,7 @@ namespace Books
             BookValidator.CheckOnNull(book);
             if (!this.books.Contains(book))
             {
-                throw new ItemIsNotFoundException($"{nameof(book)} isn't found in list.");
+                throw new BookIsNotFoundException($"{nameof(book)} isn't found in list.");
             }
 
             books.Remove(book);
@@ -103,9 +103,8 @@ namespace Books
         }
 
         /// <summary>
-        /// Loa
+        /// Loads data to storage.
         /// </summary>
-        /// <returns></returns>
         public void Load()
         {
             IEnumerable<Book> books = this.bookListStorage.Load();

@@ -22,9 +22,9 @@ namespace GCDAlgorithms
             GcdValidationHelper.CheckNumbers(first, second);
             while (second != 0)
             {
-                int t = first % second;
+                int temp = first % second;
                 first = second;
-                second = t;
+                second = temp;
             }
 
             return first;

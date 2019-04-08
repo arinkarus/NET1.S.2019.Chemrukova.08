@@ -30,15 +30,15 @@ namespace GCDAlgorithms
         }
 
         /// <summary>
-        /// Checks algorithm on null. If algorithm is null - throws an exception.
+        /// Checks object on null. If object is null - throws an exception.
         /// </summary>
-        /// <param name="algorithm">Algorithm of gcd calculations.</param>
-        /// <exception cref="ArgumentNullException">Thrown when algorithm is null.</exception>
-        public static void CheckOnNull(IGcdAlgorithm algorithm)
+        /// <param name="obj">Passed instance of object.</param>
+        /// <exception cref="ArgumentNullException">Thrown when obj is null.</exception>
+        public static void CheckOnNull(this object obj)
         {
-            if (algorithm == null)
+            if (obj == null)
             {
-                throw new ArgumentNullException($"{nameof(algorithm)} can't be null!");
+                throw new ArgumentNullException($"{nameof(obj)} can't be null!");
             }
         }
     }
