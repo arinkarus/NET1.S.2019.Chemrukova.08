@@ -34,12 +34,18 @@ namespace Books
         /// </summary>
         /// <param name="searchCriteria">Search criteria.</param>
         /// <returns>Found books.</returns>
-        IEnumerable<Book> FindByTag(ISearchCriteria searchCriteria);
+        IEnumerable<Book> FindByTag(ISearchCriteria<Book> searchCriteria);
+
+        int GetFirstMatchIndex(ISearchCriteria<Book> searchCriteria);
 
         /// <summary>
         /// Returns all books.
         /// </summary>
         /// <returns>All books.</returns>
         IEnumerable<Book> GetAll();
+
+        IEnumerable<Book> Load();
+
+        void Save();
     }
 }

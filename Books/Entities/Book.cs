@@ -46,7 +46,13 @@ namespace Books
 
         #endregion
 
-        #region Constructor
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Book"/> class.
+        /// </summary>
+        public Book()
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Book"/> class.
@@ -58,7 +64,7 @@ namespace Books
         /// <param name="publishingHouse">House of publication.</param>
         /// <param name="amountOfPages">Pages count.</param>
         /// <param name="price">Price of the book.</param>
-        public Book(string isbn, string name, string author, int publicationYear, string publishingHouse, int amountOfPages, int price)
+        public Book(string isbn, string name, string author, int publicationYear, string publishingHouse, int amountOfPages, decimal price)
         {
             this.Isbn = isbn;
             this.Name = name;

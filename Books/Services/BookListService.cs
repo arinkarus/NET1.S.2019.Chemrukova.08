@@ -88,30 +88,19 @@ namespace Books
         /// </summary>
         /// <param name="searchCriteria">Search criteria.</param>
         /// <returns>Found books.</returns>
-        public IEnumerable<Book> FindByTag(ISearchCriteria searchCriteria)
+        public IEnumerable<Book> FindByTag(ISearchCriteria<Book> searchCriteria)
         {
             BookValidator.CheckOnNull(searchCriteria);
             return GetMatchedBooks(searchCriteria);
         }
+        
 
         /// <summary>
         /// Saves books to storage.
         /// </summary>
-        public void Save()
-        {
-            this.bookListStorage.Save(this.books);              
-        }
+        public void Save() => this.bookListStorage.Save(this.books);
 
-        /// <summary>
-        /// Loads data to storage.
-        /// </summary>
-        public void Load()
-        {
-            IEnumerable<Book> books = this.bookListStorage.Load();
-            this.books = books.ToList();
-        }
-
-        private IEnumerable<Book> GetMatchedBooks(ISearchCriteria searchCriteria)
+        private IEnumerable<Book> GetMatchedBooks(ISearchCriteria<Book> searchCriteria)
         {
             foreach (var book in this.books)
             {
@@ -120,6 +109,30 @@ namespace Books
                     yield return book;
                 }
             }
-        }          
+        }
+
+        /// <summary>
+        /// Loads books from storage.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Book> Load()
+        {
+            this.books = this.bookListStorage.Load().ToList();
+            return this.books;
+        }
+
+        public int GetFirstMatchIndex(ISearchCriteria<Book> searchCriteria)
+        {
+            for (int i = 0; i < this.books.Count; i++)
+            {
+                if (searchCriteria.IsMatch(books[i]))
+                {
+                    return i;
+                }
+            }
+            
+
+            return -1;
+        }
     }
 }

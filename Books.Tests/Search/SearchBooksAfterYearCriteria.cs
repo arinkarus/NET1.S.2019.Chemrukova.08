@@ -5,7 +5,7 @@ namespace Books.Tests.Search
     /// <summary>
     /// Search books that are greter that given year.
     /// </summary>
-    public class SearchBooksAfterYearCriteria : ISearchCriteria
+    public class SearchBooksAfterYearCriteria : ISearchCriteria<Book>
     {
         /// <summary>
         /// Year to compare with.

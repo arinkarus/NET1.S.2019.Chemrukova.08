@@ -41,17 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Book.cs" />
-    <Compile Include="BookListService.cs">
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Services\BookListService.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="BookValidator.cs" />
+    <Compile Include="Helpers\BookValidator.cs" />
     <Compile Include="Exceptions\DuplicateBookException.cs" />
     <Compile Include="Exceptions\BookIsNotFoundException.cs" />
-    <Compile Include="IBookListService.cs" />
-    <Compile Include="IBookListStorage.cs" />
-    <Compile Include="ISearchCriteria.cs" />
+    <Compile Include="Interfaces\IBookListService.cs" />
+    <Compile Include="Interfaces\IBookListStorage.cs" />
+    <Compile Include="Interfaces\ISearchCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storages\BinaryStorage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

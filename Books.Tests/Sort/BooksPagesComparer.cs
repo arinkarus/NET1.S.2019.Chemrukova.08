@@ -25,17 +25,7 @@ namespace Books.Tests.Sort
         {
             BookValidator.CheckOnNull(firstBook);
             BookValidator.CheckOnNull(secondBook);
-            if (firstBook.AmountOfPages == secondBook.AmountOfPages)
-            {
-                return 0;
-            }
-
-            if (firstBook.AmountOfPages > secondBook.AmountOfPages)
-            {
-                return 1;
-            }
-
-            return -1;
+            return firstBook.AmountOfPages - secondBook.AmountOfPages;
         }
     }
 }

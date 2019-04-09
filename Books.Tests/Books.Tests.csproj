@@ -55,7 +55,6 @@
     <Compile Include="Search\SearchByNameCriteria.cs" />
     <Compile Include="Sort\BooksByYearComparer.cs" />
     <Compile Include="Sort\BooksPagesComparer.cs" />
-    <Compile Include="Storages\FakeBookListStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

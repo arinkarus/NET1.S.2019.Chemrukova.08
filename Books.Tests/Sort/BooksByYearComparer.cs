@@ -22,17 +22,7 @@ namespace Books.Tests.Sort
         {
             BookValidator.CheckOnNull(firstBook);
             BookValidator.CheckOnNull(secondBook);
-            if (firstBook.PublicationYear == secondBook.PublicationYear)
-            {
-                return 0;
-            }
-
-            if (firstBook.PublicationYear < secondBook.PublicationYear)
-            {
-                return 1;
-            }
-
-            return -1;
+            return secondBook.AmountOfPages - firstBook.AmountOfPages;
         }
     }
 }

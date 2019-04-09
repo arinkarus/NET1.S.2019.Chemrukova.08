@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Books.Tests.Search
 {
-    public class SearchByNameCriteria : ISearchCriteria
+    public class SearchByNameCriteria : ISearchCriteria<Book>
     {
         /// <summary>
         /// String for searching in book's title.

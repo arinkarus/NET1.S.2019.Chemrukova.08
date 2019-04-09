@@ -9,13 +9,13 @@ namespace Books
     /// <summary>
     /// Interface that determines method for some search criteria.
     /// </summary>
-    public interface ISearchCriteria
+    public interface ISearchCriteria<T>
     {
         /// <summary>
         /// Method to check if book matches criteria.
         /// </summary>
         /// <param name="bookToCheck">Book to check.</param>
         /// <returns>True if book to check satisfies criteria.</returns>
-        bool IsMatch(Book bookToCheck);
+        bool IsMatch(T bookToCheck);
     }
 }
