@@ -103,7 +103,7 @@ namespace Books.Tests
         [Test]
         public void Remove_BookIsNotInList_ThrowItemIsNotFoundException()
         {
-            var bookThatIsNotInBookList = new Book("987-123456779-4", "NOT EXISTING IN LIST", "XXX", 2012, "XXX", 10, 20);
+            var bookThatIsNotInBookList = new Book("987-123456779-1", "NOT EXISTING IN LIST", "XXX", 2012, "XXX", 10, 20);
             var bookListService = new BookListService(new BinaryStorage());
             bookListService.Add(new Book("987-123456789-4", "Name", "Author", 2015, "House", 100, 100));
             bookListService.Add(new Book("987-123456779-4", "Some book", "Ivanov", 1985, "House", 1050, 100));

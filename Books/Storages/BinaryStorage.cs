@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Books.Storages
 {
@@ -13,11 +10,29 @@ namespace Books.Storages
     /// </summary>
     public class BinaryStorage : IBookListStorage
     {
+        private static readonly string filePath;
+
+        private const string bookFilePath = "books.dat";
+
+        static BinaryStorage()
+        {
+            try
+            {
+                var reader = new AppSettingsReader();
+                var settingsReader = new AppSettingsReader();
+                string filePathSetting = (string)settingsReader.GetValue("booksFilePath", typeof(string));
+                filePath = filePathSetting;
+            }
+            catch
+            {
+                filePath = bookFilePath;
+            }
+        }
+
         public IEnumerable<Book> Load()
         {
-            string path = @"E:\WebApi\states.dat";
             var loadedBooks = new List<Book>();
-            using (var reader = new BinaryReader(File.Open(path, FileMode.OpenOrCreate)))
+            using (var reader = new BinaryReader(File.Open(filePath, FileMode.OpenOrCreate)))
             {
                 while (reader.PeekChar()  > -1)
                 {
@@ -37,8 +52,7 @@ namespace Books.Storages
 
         public void Save(IEnumerable<Book> books)
         {
-            string path = @"E:\WebApi\states.dat";
-            using (var writer = new BinaryWriter(File.Open(path, FileMode.Create)))
+            using (var writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
             {
                 foreach (var book in books)
                 {
