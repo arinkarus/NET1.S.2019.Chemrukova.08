@@ -213,6 +213,11 @@ namespace Books
             return other.isbn.CompareTo(this.isbn);
         }
 
+        /// <summary>
+        /// Compares two objects.
+        /// </summary>
+        /// <param name="obj">Passed object.</param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             if (!(obj is Book book))
