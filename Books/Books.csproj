@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Books</RootNamespace>
     <AssemblyName>Books</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Book.cs" />
+    <Compile Include="Exceptions\ReadFromStorageException.cs" />
+    <Compile Include="Exceptions\WriteToStorageException.cs" />
     <Compile Include="Services\BookListService.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

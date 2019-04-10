@@ -12,6 +12,12 @@ namespace Books
     public interface IBookListService
     {
         /// <summary>
+        /// Updates book.
+        /// </summary>
+        /// <param name="book">Book to update.</param>
+        void Update(Book book);
+
+        /// <summary>
         /// Adds book.
         /// </summary>
         /// <param name="book">Given book.</param>
@@ -27,7 +33,7 @@ namespace Books
         /// Sorts books.
         /// </summary>
         /// <param name="comparer">Given comparer.</param>
-        void SortBy(IComparer<Book> comparer);
+        IEnumerable<Book> SortBy(IComparer<Book> comparer);
 
         /// <summary>
         /// Finds books.
@@ -36,16 +42,27 @@ namespace Books
         /// <returns>Found books.</returns>
         IEnumerable<Book> FindByTag(ISearchCriteria<Book> searchCriteria);
 
-        int GetFirstMatchIndex(ISearchCriteria<Book> searchCriteria);
-
         /// <summary>
         /// Returns all books.
         /// </summary>
         /// <returns>All books.</returns>
         IEnumerable<Book> GetAll();
 
-        IEnumerable<Book> Load();
+        /// <summary>
+        /// Finds book by tag.
+        /// </summary>
+        /// <param name="searchCriteria"></param>
+        /// <returns>Book.</returns>
+        Book FindBookByTag(ISearchCriteria<Book> searchCriteria);
 
+        /// <summary>
+        /// Loads data from storage to temporary set of books.
+        /// </summary>
+        void Load();
+
+        /// <summary>
+        /// Saves data from temporary set of books to storage.
+        /// </summary>
         void Save();
     }
 }

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Books.Exceptions;
 
 namespace Books.MVC.Controllers
 {
@@ -16,12 +17,12 @@ namespace Books.MVC.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Book> books = service.Load();
-            return View(books);
+            service.Load();                
+            return View(service.GetAll());
         }
 
         [HttpGet]
-        public ActionResult Create(string isbn)
+        public ActionResult Create()
         {
             return View();
         }
@@ -29,26 +30,37 @@ namespace Books.MVC.Controllers
         [HttpPost]
         public ActionResult Create(Book bookToAdd)
         {
-            IEnumerable<Book> books = service.Load();
-            service.Add(bookToAdd);
-            service.Save();
+            try
+            {
+                service.Load();
+                service.Add(bookToAdd);
+                service.Save();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View();
+            }
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(string isbn)
         {
-            IEnumerable<Book> books = service.Load();
-            IEnumerable<Book> booksFromStorage = service.FindByTag(new SearchByISBNCriteria(isbn));
-            return View(booksFromStorage.ElementAt<Book>(0));
+            service.Load();
+            Book bookToEdit = service.FindBookByTag(new SearchByISBNCriteria(isbn));
+            if (bookToEdit == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            return View(bookToEdit);
         }
 
         [HttpPost]
         public ActionResult Edit(Book book)
         {
-            List<Book> books = service.Load().ToList();
-            int indexOfBookToChange = service.GetFirstMatchIndex(new SearchByISBNCriteria(book.Isbn));
-            books[indexOfBookToChange] = book;
+            service.Load();
+            service.Update(book);
             service.Save();
             return RedirectToAction("Index");
         }
@@ -56,10 +68,15 @@ namespace Books.MVC.Controllers
         [HttpGet]
         public ActionResult Delete(string isbn)
         {
-            IEnumerable<Book> books = service.Load();
-            IEnumerable<Book> booksFromStorage = service.FindByTag(new SearchByISBNCriteria(isbn));
-            return View(booksFromStorage.ElementAt<Book>(0));
+            service.Load();
+            Book book = service.FindBookByTag(new SearchByISBNCriteria(isbn));
+            if (book == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            return View(book);
         }
+
 
         [ActionName("Delete")]
         [HttpPost]
@@ -68,9 +85,12 @@ namespace Books.MVC.Controllers
         {
             try
             {
-                List<Book> books = service.Load().ToList();
-                int indexOfBookToChange = service.GetFirstMatchIndex(new SearchByISBNCriteria(isbn));
-                service.Remove(books[indexOfBookToChange]);
+                Book book = new Book
+                {
+                    Isbn = isbn
+                };
+                service.Load();
+                service.Remove(book);
                 service.Save();
                 return RedirectToAction("Index");
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Books.Exceptions;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
@@ -12,7 +13,7 @@ namespace Books.Storages
     {
         private static readonly string filePath;
 
-        private const string bookFilePath = "books.dat";
+        private const string defaultFilePath = "books.dat";
 
         static BinaryStorage()
         {
@@ -25,45 +26,59 @@ namespace Books.Storages
             }
             catch
             {
-                filePath = bookFilePath;
+                filePath = defaultFilePath;
             }
         }
 
         public IEnumerable<Book> Load()
         {
             var loadedBooks = new List<Book>();
-            using (var reader = new BinaryReader(File.Open(filePath, FileMode.OpenOrCreate)))
+            try
             {
-                while (reader.PeekChar()  > -1)
+                using (var reader = new BinaryReader(File.Open(filePath, FileMode.OpenOrCreate)))
                 {
-                    string isbn = reader.ReadString();
-                    string name = reader.ReadString();
-                    string author = reader.ReadString();
-                    string publishingHouse = reader.ReadString();
-                    decimal price = reader.ReadDecimal();
-                    int year = reader.ReadInt32();
-                    int amountOfPages = reader.ReadInt32();
-                    var book = new Book(isbn, name, author, year, publishingHouse, amountOfPages, price);
-                    loadedBooks.Add(book);
+                    while (reader.PeekChar() > -1)
+                    {
+                        string isbn = reader.ReadString();
+                        string name = reader.ReadString();
+                        string author = reader.ReadString();
+                        string publishingHouse = reader.ReadString();
+                        decimal price = reader.ReadDecimal();
+                        int year = reader.ReadInt32();
+                        int amountOfPages = reader.ReadInt32();
+                        var book = new Book(isbn, name, author, year, publishingHouse, amountOfPages, price);
+                        loadedBooks.Add(book);
+                    }
                 }
+                return loadedBooks;
             }
-            return loadedBooks;
+            catch
+            {
+                throw new ReadFromStorageException($"There was an error while reading from storage: {filePath}");
+            }
         }
 
         public void Save(IEnumerable<Book> books)
         {
-            using (var writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+            try
             {
-                foreach (var book in books)
+                using (var writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
                 {
-                    writer.Write(book.Isbn);
-                    writer.Write(book.Name);
-                    writer.Write(book.Author);
-                    writer.Write(book.PublishingHouse);
-                    writer.Write(book.Price);
-                    writer.Write(book.PublicationYear);
-                    writer.Write(book.AmountOfPages);
+                    foreach (var book in books)
+                    {
+                        writer.Write(book.Isbn);
+                        writer.Write(book.Name);
+                        writer.Write(book.Author);
+                        writer.Write(book.PublishingHouse);
+                        writer.Write(book.Price);
+                        writer.Write(book.PublicationYear);
+                        writer.Write(book.AmountOfPages);
+                    }
                 }
+            }
+            catch
+            {
+                throw new WriteToStorageException($"There was an error while writing to storage: {filePath}");
             }
         }
 

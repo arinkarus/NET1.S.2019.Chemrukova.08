@@ -16,9 +16,9 @@ namespace Books
         private readonly IBookListStorage bookListStorage;
 
         /// <summary>
-        /// List that contains books.
+        /// Hashset that contains books.
         /// </summary>
-        private List<Book> books = new List<Book>();
+        private HashSet<Book> books = new HashSet<Book>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BookListService"/> class.
@@ -31,7 +31,7 @@ namespace Books
         }
 
         /// <summary>
-        /// Adds book to list.
+        /// Adds book to books.
         /// </summary>
         /// <param name="book">Book to add.</param>
         /// <exception cref="DuplicateItemException">Thrown when there is a try to add already existing book.</exception>
@@ -48,7 +48,7 @@ namespace Books
         }
 
         /// <summary>
-        /// Removes book from list.
+        /// Removes book from books.
         /// </summary>
         /// <param name="book">Book to add.</param>
         /// <exception cref="ItemIsNotFoundException">When book to remove doesn't exist.</exception>
@@ -65,13 +65,31 @@ namespace Books
         }
 
         /// <summary>
+        /// Updates book.
+        /// </summary>
+        /// <param name="book"></param>
+        public void Update(Book book)
+        {
+            BookValidator.CheckOnNull(book);
+            if (!this.books.Contains(book))
+            {
+                throw new BookIsNotFoundException($"{nameof(book)} isn't found in list.");
+            }
+
+            this.books.Remove(book);
+            this.books.Add(book);             
+        }
+
+        /// <summary>
         /// Sorts books by condition that is provided by comparer.
         /// </summary>
         /// <param name="comparer">Comparer that will be used for sorting.</param>
-        public void SortBy(IComparer<Book> comparer)
+        public IEnumerable<Book> SortBy(IComparer<Book> comparer)
         {
             BookValidator.CheckOnNull(comparer);
-            books.Sort(comparer);
+            var booksToSort = books.ToList();
+            booksToSort.Sort(comparer);
+            return booksToSort;
         }
 
         /// <summary>
@@ -94,7 +112,6 @@ namespace Books
             return GetMatchedBooks(searchCriteria);
         }
         
-
         /// <summary>
         /// Saves books to storage.
         /// </summary>
@@ -115,24 +132,27 @@ namespace Books
         /// Loads books from storage.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Book> Load()
+        public void Load()
         {
-            this.books = this.bookListStorage.Load().ToList();
-            return this.books;
+            this.books = this.bookListStorage.Load().ToHashSet<Book>();
         }
 
-        public int GetFirstMatchIndex(ISearchCriteria<Book> searchCriteria)
+        /// <summary>
+        /// Finds book by criteria.
+        /// </summary>
+        /// <param name="searchCriteria">Given criteria.</param>
+        /// <returns>Found book.</returns>
+        public Book FindBookByTag(ISearchCriteria<Book> searchCriteria)
         {
-            for (int i = 0; i < this.books.Count; i++)
+            foreach (var book in this.books)
             {
-                if (searchCriteria.IsMatch(books[i]))
+                if (searchCriteria.IsMatch(book))
                 {
-                    return i;
-                }
+                    return book;
+                } 
             }
-            
 
-            return -1;
+            return null;
         }
     }
 }

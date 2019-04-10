@@ -235,13 +235,6 @@ namespace Books
                 return true;
             }
 
-          /*  if (this.Isbn == other.Isbn && this.Name == other.Name && 
-                this.Price == other.Price && this.Author == other.Author && this.PublicationYear == other.PublicationYear &&
-                this.PublishingHouse == other.PublishingHouse && this.AmountOfPages == this.AmountOfPages)
-            {
-                return true;
-            }
-            */
             return false;    
         }
 
@@ -270,7 +263,7 @@ namespace Books
         /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
-            return (this.Isbn, this.Name, this.Price, this.Author, this.PublicationYear, this.PublishingHouse, this.AmountOfPages).GetHashCode();
+            return this.isbn.GetHashCode();
         }
 
         /// <summary>

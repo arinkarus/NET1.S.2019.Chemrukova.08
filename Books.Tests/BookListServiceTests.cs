@@ -23,9 +23,8 @@ namespace Books.Tests
             bookListService.Add(new Book("987-123456789-4", "Name", "Author", 2010, "House", 100, 100));
             bookListService.Add(new Book("987-123456779-4", "Some book", "Ivanov", 2010, "House", 1050, 100));
             bookListService.Add(new Book("987-123456771-4", "English dictionary", "Englishmen", 2010, "House", 200, 100));
-            bookListService.SortBy(new BooksPagesComparer());
-            IEnumerable<Book> books = bookListService.GetAll();
-            CollectionAssert.AreEqual(expected, books);
+            IEnumerable<Book> sorted = bookListService.SortBy(new BooksPagesComparer());
+            CollectionAssert.AreEqual(expected, sorted);
         }
 
         [Test]
@@ -41,9 +40,8 @@ namespace Books.Tests
             bookListService.Add(new Book("987-123456789-4", "Name", "Author", 2015, "House", 100, 100));
             bookListService.Add(new Book("987-123456779-4", "Some book", "Ivanov", 1985, "House", 1050, 100));
             bookListService.Add(new Book("987-123456771-4", "English dictionary", "Englishmen", 1999, "House", 200, 100));
-            bookListService.SortBy(new BooksPagesComparer());
-            IEnumerable<Book> books = bookListService.GetAll();
-            CollectionAssert.AreEqual(expected, books);
+            IEnumerable<Book> sorted = bookListService.SortBy(new BooksPagesComparer());
+            CollectionAssert.AreEqual(expected, sorted);
         }
 
         [Test]
