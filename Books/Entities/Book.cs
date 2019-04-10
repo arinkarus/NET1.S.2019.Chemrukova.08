@@ -5,7 +5,7 @@ namespace Books
     /// <summary>
     /// Represents a book entity.
     /// </summary>
-    public class Book : IEquatable<Book>, IComparable<Book>
+    public class Book : IEquatable<Book>, IComparable<Book>, IComparable
     {
         #region Fields 
 
@@ -211,6 +211,15 @@ namespace Books
         {
             BookValidator.CheckOnNull(other);
             return other.isbn.CompareTo(this.isbn);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (!(obj is Book book))
+            {
+                throw new InvalidOperationException("Can't compare with book!");
+            }
+            return book.isbn.CompareTo(this.isbn);
         }
 
         /// <summary>
