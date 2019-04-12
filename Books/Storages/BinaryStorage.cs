@@ -13,7 +13,7 @@ namespace Books.Storages
     {
         private static readonly string filePath;
 
-        private const string defaultFilePath = "books.dat";
+        private const string DefaultFilePath = "books.dat";
 
         static BinaryStorage()
         {
@@ -26,7 +26,7 @@ namespace Books.Storages
             }
             catch
             {
-                filePath = defaultFilePath;
+                filePath = DefaultFilePath;
             }
         }
 
