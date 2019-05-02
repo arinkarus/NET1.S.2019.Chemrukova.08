@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Books
 {
-    public class BookFormatProvider: IFormatProvider, ICustomFormatter
+    public class BookFormatProvider : IFormatProvider, ICustomFormatter
     {
         private IFormatProvider parent;
 
@@ -62,7 +62,7 @@ namespace Books
                 return arg.ToString();
             }    
             
-            return String.Empty;
+            return string.Empty;
         }      
     }
 }
