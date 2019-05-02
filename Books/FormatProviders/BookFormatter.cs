@@ -9,7 +9,7 @@ namespace Books
 {
     public class BookFormatProvider: IFormatProvider, ICustomFormatter
     {
-        IFormatProvider parent;
+        private IFormatProvider parent;
 
         public BookFormatProvider(IFormatProvider parent)
         {
@@ -63,7 +63,6 @@ namespace Books
             }    
             
             return String.Empty;
-        }
-        
+        }      
     }
 }
