@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Books
 {
-    public class BookFormatter : IFormatProvider, ICustomFormatter
+    public class BookFormatProvider: IFormatProvider, ICustomFormatter
     {
         IFormatProvider parent;
 
-        public BookFormatter(IFormatProvider parent)
+        public BookFormatProvider(IFormatProvider parent)
         {
             this.parent = parent;
         }
 
-        public BookFormatter() : this(CultureInfo.CurrentCulture)
+        public BookFormatProvider() : this(CultureInfo.CurrentCulture)
         {
 
         }

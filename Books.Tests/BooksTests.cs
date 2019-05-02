@@ -139,7 +139,7 @@ namespace Books.Tests
         public void Format_BookFormatterInvalidFormatString_ThrowFormatException(string format)
         {
             var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100);
-            Assert.Throws<FormatException>(() => string.Format(new BookFormatter(), format, book)); 
+            Assert.Throws<FormatException>(() => string.Format(new BookFormatProvider(), format, book)); 
         }
 
         [TestCase("{0:Author_Name_Price}", ExpectedResult = "Jon Skeet, C# in Depth, 100.01")]
@@ -148,7 +148,7 @@ namespace Books.Tests
         {
             CultureInfo cultureInfo = CultureInfo.InvariantCulture;         
             var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
-            return string.Format(new BookFormatter(cultureInfo), format, book);
+            return string.Format(new BookFormatProvider(cultureInfo), format, book);
         }
 
         [TestCase("{0:Price}", ExpectedResult = "100.01")]
@@ -156,7 +156,7 @@ namespace Books.Tests
         {
             CultureInfo cultureInfo = CultureInfo.InvariantCulture;
             var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
-            return string.Format(new BookFormatter(cultureInfo), format, book);
+            return string.Format(new BookFormatProvider(cultureInfo), format, book);
         }
 
         [TestCase("{0:Price}", ExpectedResult = "100,01")]
@@ -164,7 +164,7 @@ namespace Books.Tests
         {
             CultureInfo cultureInfo = new CultureInfo("RU-ru");
             var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
-            return string.Format(new BookFormatter(cultureInfo), format, book);
+            return string.Format(new BookFormatProvider(cultureInfo), format, book);
         }
 
         [TestCase("{0:Author_Name_Price}", ExpectedResult = "Jon Skeet, C# in Depth, 100,01")]
@@ -173,7 +173,7 @@ namespace Books.Tests
         {
             CultureInfo cultureInfo = new CultureInfo("RU-ru");
             var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
-            return string.Format(new BookFormatter(cultureInfo), format, book);
+            return string.Format(new BookFormatProvider(cultureInfo), format, book);
         }
     }
 }
