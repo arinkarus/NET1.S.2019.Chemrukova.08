@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using System.Globalization;
+using Books;
 
 namespace Books.Tests
 {
@@ -86,13 +88,6 @@ namespace Books.Tests
             Assert.AreEqual(book.Equals(notBook), false);
         }
 
-        [Test(ExpectedResult = "ISBN: 987-123456789-4, name: Some story, author: Author, price: 1050, publication year: 2009, publication house: Publishing house, pages: 350.")]
-        public string ToString_ConcreteBook_ReturnString()
-        {
-            var book = new Book("987-123456789-4", "Some story", "Author", 2009, "Publishing house", 350, 1050);
-            return book.ToString();
-        }
-
         [Test]
         public void Equals_TheSameReference_ReturnTrue()
         {
@@ -109,12 +104,76 @@ namespace Books.Tests
             Assert.AreEqual(firstBook.GetHashCode(), secondBook.GetHashCode());
         }
 
+        [TestCase(ExpectedResult = "Jon Skeet, C# in Depth, 2019, Manning")]
+        public string ToString_ConcreteBook_ReturnString()
+        {
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100);
+            return book.ToString();
+        }
+
         [Test]
         public void GetHashCode_DifferentBooks_ReturnNotEqualHashCodes()
         {
             var firstBook = new Book("979-122456789-1", "New book", "Ivanov", 2010, "Publishing house", 50, 105);
             var secondBook = new Book("979-722456789-2", "Another book", "Another author", 1999, "Eksmo", 201, 105);
             Assert.AreNotEqual(firstBook.GetHashCode(), secondBook.GetHashCode());
+        }
+
+        [Test]
+        public void ToString_InvalidFormatString_ThrowFormatException() =>
+            Assert.Throws<FormatException>(() => new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100).ToString("some"));
+
+        [TestCase("General", ExpectedResult = "Jon Skeet, C# in Depth, 2019, Manning")]
+        [TestCase("Name_Author_House", ExpectedResult = "C# in Depth, Jon Skeet, Manning")]
+        [TestCase("Name", ExpectedResult = "C# in Depth")]
+        [TestCase("Author_Name", ExpectedResult = "Jon Skeet, C# in Depth")]
+        [TestCase("Author_Name_Year", ExpectedResult = "Jon Skeet, C# in Depth, 2019")]
+        [TestCase("Author_Name_Year_House", ExpectedResult = "Jon Skeet, C# in Depth, 2019, Manning")]
+        public string ToString_FormatStringGiven_ReturnString(string format)
+        {
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100);
+            return book.ToString(format, CultureInfo.InvariantCulture);
+        }
+
+        [TestCase("{0:Some}")]
+        public void Format_BookFormatterInvalidFormatString_ThrowFormatException(string format)
+        {
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100);
+            Assert.Throws<FormatException>(() => string.Format(new BookFormatter(), format, book)); 
+        }
+
+        [TestCase("{0:Author_Name_Price}", ExpectedResult = "Jon Skeet, C# in Depth, 100.01")]
+        [TestCase("{0:Name_Price}", ExpectedResult = "C# in Depth, 100.01")]
+        public string Format_BookFormatterValidFormatString_ReturnString(string format)
+        {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;         
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
+            return string.Format(new BookFormatter(cultureInfo), format, book);
+        }
+
+        [TestCase("{0:Price}", ExpectedResult = "100.01")]
+        public string Format_BookFormatterParentFormatString_ReturnString(string format)
+        {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
+            return string.Format(new BookFormatter(cultureInfo), format, book);
+        }
+
+        [TestCase("{0:Price}", ExpectedResult = "100,01")]
+        public string Format_BookFormatterParentFormatStringRussianCulture_ReturnString(string format)
+        {
+            CultureInfo cultureInfo = new CultureInfo("RU-ru");
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
+            return string.Format(new BookFormatter(cultureInfo), format, book);
+        }
+
+        [TestCase("{0:Author_Name_Price}", ExpectedResult = "Jon Skeet, C# in Depth, 100,01")]
+        [TestCase("{0:Name_Price}", ExpectedResult = "C# in Depth, 100,01")]
+        public string Format_BookFormatterValidFormatStringRussianCulture_ReturnString(string format)
+        {
+            CultureInfo cultureInfo = new CultureInfo("RU-ru");
+            var book = new Book("979-122456789-1", "C# in Depth", "Jon Skeet", 2019, "Manning", 600, 100.01m);
+            return string.Format(new BookFormatter(cultureInfo), format, book);
         }
     }
 }

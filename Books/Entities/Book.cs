@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Books
 {
     /// <summary>
     /// Represents a book entity.
     /// </summary>
-    public class Book : IEquatable<Book>, IComparable<Book>, IComparable
+    public sealed class Book : IEquatable<Book>, IComparable<Book>, IComparable, IFormattable
     {
         #region Fields 
 
@@ -286,8 +287,66 @@ namespace Books
         /// <returns>Information about book.</returns>
         public override string ToString()
         {
-            return $"ISBN: {this.Isbn}, name: {this.Name}, author: {this.author}, price: {this.price}," +
-                $" publication year: {this.PublicationYear}, publication house: {this.PublishingHouse}, pages: {this.AmountOfPages}.";
+            return this.ToString("General", CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Return string representation of book.
+        /// </summary>
+        /// <param name="format">Format string.</param>
+        /// <returns>Information about book in string.</returns>
+        public string ToString(string format)
+        {
+            return this.ToString(format, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Return string representation of book.
+        /// </summary>
+        /// <param name="formatProvider">Given formatProvider.</param>
+        /// <returns>Information about book in string.</returns>
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return this.ToString("General", formatProvider);
+        }
+
+        /// <summary>
+        /// Return string representation of book.
+        /// </summary>
+        /// <param name="format">Format string.</param>
+        /// <param name="formatProvider">Given formatProvider.</param>
+        /// <returns>Information about book in string.</returns>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            if (String.IsNullOrEmpty(format))
+            {
+                format = "General";
+            }
+
+            if (formatProvider == null)
+            {
+                formatProvider = CultureInfo.CurrentCulture;
+            }
+
+            switch (format)
+            {
+                case "General":
+                case "Author_Name_Year_House":
+                    return $"{this.Author}, {this.Name}, {this.PublicationYear}, {this.PublishingHouse}";
+                case "Author_Name_Year":
+                    return $"{this.Author}, {this.Name}, {this.PublicationYear}";
+                case "Author_Name":
+                    return $"{this.Author}, {this.Name}";
+                case "Name_Author_House":
+                    return $"{this.Name}, {this.Author}, {this.PublishingHouse}";
+                case "Name":
+                    return $"{this.Name}";
+                case "Price":
+                    return $"{this.Price.ToString(formatProvider)}";
+                default:
+                    throw new FormatException($"Format {format} is not supported.");
+            }
+
         }
 
         #endregion
