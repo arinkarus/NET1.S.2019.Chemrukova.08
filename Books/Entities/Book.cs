@@ -346,7 +346,6 @@ namespace Books
                 default:
                     throw new FormatException($"Format {format} is not supported.");
             }
-
         }
 
         #endregion
