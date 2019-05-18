@@ -50,13 +50,10 @@
     <Compile Include="EuclideanGcdAlgorithm .cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="GcdAlgorithmWithTimePerformance.cs" />
     <Compile Include="GcdValidationHelper.cs" />
     <Compile Include="IGcdAlgorithm.cs" />
-    <Compile Include="ITimeCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BinaryGcdAlgorithm .cs" />
-    <Compile Include="StopwatchAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

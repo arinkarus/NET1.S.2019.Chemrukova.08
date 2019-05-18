@@ -45,7 +45,7 @@
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Exceptions\ReadFromStorageException.cs" />
     <Compile Include="Exceptions\WriteToStorageException.cs" />
-    <Compile Include="FormatProviders\BookFormatter.cs" />
+    <Compile Include="FormatProviders\BookFormatProvider.cs" />
     <Compile Include="Services\BookListService.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
